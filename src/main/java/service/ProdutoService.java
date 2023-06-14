@@ -6,9 +6,8 @@ import model.Medicamento;
 import model.Perfumaria;
 import model.Produto;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
 
 public class ProdutoService {
     private ConexaoBanco conexaoBanco;
@@ -92,6 +91,31 @@ public class ProdutoService {
         mensagem = " O banco nao esta conectado";
         return  false;
 
+    }
+    public  ArrayList<Produto> listaMedicamento(){
+        if( conexaoBanco.isConectado()){
+
+            try {
+                Connection connection = conexaoBanco.getConnection();
+                String sql = "select  p.numero,Nome_comercial, p.quantidade from produto p,medicamento m where p.numero = m.numero;";
+                Statement Statement = connection.createStatement();
+                ResultSet resultSet = Statement.executeQuery(sql);
+                ArrayList<Produto> produtos = new ArrayList<>();
+                while(resultSet.next()){
+                    int numero = resultSet.getInt("numero");
+                    String nome_comercial = resultSet.getString("nome_comercial");
+                    int quantidade = resultSet.getInt("quantidade");
+                    Produto produto = new Produto(numero,0,nome_comercial,"",quantidade,"");
+                    produtos.add(produto);
+                }
+                return produtos;
+            } catch (SQLException e) {
+               mensagem = e.getMessage();
+               return  null ;
+            }
+        }
+        mensagem = " Banco não conectado";
+        return null;
     }
 
     public String getMensagem() {
