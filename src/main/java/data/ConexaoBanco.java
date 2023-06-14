@@ -13,7 +13,7 @@ public class ConexaoBanco {
     private boolean conectado;
     private static ConexaoBanco instanciaConexaoBanco = null;
     public  ConexaoBanco(){
-        url = "jdbc:mysql://localhost:3306/farmacia";
+        url = "jdbc:mysql://localhost/farmacia";
         user = "";
         password ="";
         conectado = false;
@@ -25,7 +25,7 @@ public class ConexaoBanco {
         this.password = password;
 
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
+            Class.forName(driver);
             connection = DriverManager.getConnection(url, user, password);
             mensagem = "Conexão realidaza com sucesso.";
             conectado = true;

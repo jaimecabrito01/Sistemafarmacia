@@ -266,9 +266,11 @@ private  ControllerFabricante controllerFabricante;
         String tipo_embalagem = txtTipoEmbalagem.getText().trim();
         int quantidade = Integer.parseInt(txtQuantidadeProduto.getText().trim());
         Fabricante fabricante = (Fabricante)cbCNPJ.getSelectedItem();
+
         String formula = txtFormula.getText().trim();
         String tarja = cmbTarja.getSelectedItem().toString();
 
+        System.out.println(tarja);
         controllerProduto.insertProduto(numero,nome_comercial,preco,tipo_embalagem,quantidade,fabricante.getCnpj());
         controllerProduto.insertMedicamento(numero,tarja,formula);
         String mensagem = controllerProduto.getMensagem();

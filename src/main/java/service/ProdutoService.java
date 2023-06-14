@@ -75,9 +75,9 @@ public class ProdutoService {
 
             try {
                 Connection connection = conexaoBanco.getConnection();
-                String sql = "insert into perfumaria (numero,tarja,formula) ";
+                String sql = "insert into medicamento (numero,tarja,formula) ";
                 sql += " values ";
-                sql+= "(?,?,?)";
+                sql+= "(?,?,?);";
                 PreparedStatement preparedStatement = connection.prepareStatement(sql);
                 preparedStatement.setInt(1,medicamento.getNumero());
                 preparedStatement.setString(2, medicamento.getTarja());
@@ -87,9 +87,7 @@ public class ProdutoService {
                 return  true;
             } catch (SQLException e) {
                 mensagem = e.getMessage();
-
             }
-
         }
         mensagem = " O banco nao esta conectado";
         return  false;

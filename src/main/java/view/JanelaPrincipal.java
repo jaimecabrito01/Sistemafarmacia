@@ -11,7 +11,7 @@ import javax.swing.*;
  *
  * @author 202112030001
  */
-public class JanelaPrincipal extends javax.swing.JFrame {
+public class    JanelaPrincipal extends javax.swing.JFrame {
 private   ControllerConexao controllerConexao;
     /**
      * Creates new form JanelaPrincipal
@@ -19,6 +19,7 @@ private   ControllerConexao controllerConexao;
     public JanelaPrincipal() {
        controllerConexao = new ControllerConexao();
         initComponents();
+
     }
 
     /**
@@ -40,6 +41,11 @@ private   ControllerConexao controllerConexao;
         jMenuVenda = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
         setTitle("Farmacia");
 
         javax.swing.GroupLayout desktopLayout = new javax.swing.GroupLayout(desktop);
@@ -142,7 +148,7 @@ private   ControllerConexao controllerConexao;
        conectarBanco();
     }
     private void conectarBanco(){
-        controllerConexao.abrirConexao("root","jvictor01");
+        controllerConexao.abrirConexao("root","");
         String mensagem = controllerConexao.getMensagem();
         JOptionPane.showMessageDialog(this, mensagem);
     }
