@@ -97,7 +97,7 @@ private ControllerProduto controllerProduto;
         lblFabricante.setFont(new java.awt.Font("Arial Black", 1, 18)); // NOI18N
         lblFabricante.setText("Cadastro Perfume");
 
-        cbCNPJ.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
         cbCNPJ.setSelectedIndex(-1);
         cbCNPJ.setToolTipText("");
         cbCNPJ.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));

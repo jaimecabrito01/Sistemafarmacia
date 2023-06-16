@@ -4,20 +4,27 @@
  */
 package view;
 
+import controllers.ControllerVenda;
 import model.Medicamento;
 import model.Perfumaria;
+import model.Produto;
+
+import javax.swing.*;
+import java.util.ArrayList;
 
 /**
  *
  * @author 202112030001
  */
 public class JanelaVenda extends javax.swing.JInternalFrame {
-
+private ControllerVenda controllerVenda;
     /**
      * Creates new form JanelaVenda
      */
     public JanelaVenda() {
+        controllerVenda = new ControllerVenda();
         initComponents();
+        listarMedicamentos();
     }
 
     /**
@@ -78,23 +85,15 @@ public class JanelaVenda extends javax.swing.JInternalFrame {
         lblQTDPerfume.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         lblQTDPerfume.setText("Quatidade Perfumes:");
 
-        jListPerfume.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
         jScrollPane1.setViewportView(jListPerfume);
 
-        jListMedicamentos.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
         jListMedicamentos.addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentHidden(java.awt.event.ComponentEvent evt) {
                 jListMedicamentosComponentHidden(evt);
             }
         });
+
+
         jScrollPane2.setViewportView(jListMedicamentos);
 
         txtPerfumes.addActionListener(new java.awt.event.ActionListener() {
@@ -148,7 +147,7 @@ public class JanelaVenda extends javax.swing.JInternalFrame {
                                     .addComponent(lblQTDPerfume)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(txtQTDPerfume, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblPerfume)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -156,7 +155,7 @@ public class JanelaVenda extends javax.swing.JInternalFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblMedicamentosItem)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(11, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(198, 198, 198)
                 .addComponent(btnCadVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -179,9 +178,9 @@ public class JanelaVenda extends javax.swing.JInternalFrame {
                             .addComponent(txtNomeCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lblNomeCliente))
                         .addGap(8, 8, 8)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblPerfumes)
-                            .addComponent(txtPerfumes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtPerfumes, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblPerfumes))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtMedicamentos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -221,8 +220,24 @@ public class JanelaVenda extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    public  void listarMedicamentos(){
+        ListModel<Produto> model = (ListModel<Produto>)  jListMedicamentos.getModel();
+        int tamanho = model.getSize();
+        for( int i = 0;i<tamanho;i++){
+            jListMedicamentos.remove(0);
+        }
+        ArrayList<Produto> produtos = controllerVenda.listMedicamentos();
+        DefaultListModel<Produto> listModel = new DefaultListModel<>();
+
+        for (Produto produto: produtos) {
+            listModel.addElement(produto);
+        }
+        jListMedicamentos.setModel(listModel);
+    }
     private void txtPerfumesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPerfumesActionPerformed
-        // TODO add your handling code here:
+
+
+
     }//GEN-LAST:event_txtPerfumesActionPerformed
 
     private void jListMedicamentosComponentHidden(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jListMedicamentosComponentHidden
@@ -232,8 +247,8 @@ public class JanelaVenda extends javax.swing.JInternalFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCadVenda;
-    private javax.swing.JList<String> jListMedicamentos;
-    private javax.swing.JList<String> jListPerfume;
+    private javax.swing.JList<Produto> jListMedicamentos;
+    private javax.swing.JList<Produto> jListPerfume;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem1;
     private javax.swing.JScrollPane jScrollPane1;

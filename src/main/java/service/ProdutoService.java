@@ -97,18 +97,18 @@ public class ProdutoService {
 
             try {
                 Connection connection = conexaoBanco.getConnection();
-                String sql = "select  p.numero,Nome_comercial, p.quantidade from produto p,medicamento m where p.numero = m.numero;";
+                String sql = "select  Nome_comercial, p.numero, p.quantidade from produto p,medicamento m where p.numero = m.numero;";
                 Statement Statement = connection.createStatement();
                 ResultSet resultSet = Statement.executeQuery(sql);
                 ArrayList<Produto> produtos = new ArrayList<>();
                 while(resultSet.next()){
+                    String nome_comercial = resultSet.getString("Nome_comercial");
                     int numero = resultSet.getInt("numero");
-                    String nome_comercial = resultSet.getString("nome_comercial");
                     int quantidade = resultSet.getInt("quantidade");
                     Produto produto = new Produto(numero,0,nome_comercial,"",quantidade,"");
                     produtos.add(produto);
                 }
-                return produtos;
+               return produtos;
             } catch (SQLException e) {
                mensagem = e.getMessage();
                return  null ;
