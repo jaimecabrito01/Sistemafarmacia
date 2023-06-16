@@ -25,6 +25,7 @@ private ControllerVenda controllerVenda;
         controllerVenda = new ControllerVenda();
         initComponents();
         listarMedicamentos();
+        listarPerfumaria();
     }
 
     /**
@@ -92,8 +93,6 @@ private ControllerVenda controllerVenda;
                 jListMedicamentosComponentHidden(evt);
             }
         });
-
-
         jScrollPane2.setViewportView(jListMedicamentos);
 
         txtPerfumes.addActionListener(new java.awt.event.ActionListener() {
@@ -219,7 +218,6 @@ private ControllerVenda controllerVenda;
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
     public  void listarMedicamentos(){
         ListModel<Produto> model = (ListModel<Produto>)  jListMedicamentos.getModel();
         int tamanho = model.getSize();
@@ -234,10 +232,22 @@ private ControllerVenda controllerVenda;
         }
         jListMedicamentos.setModel(listModel);
     }
+    public  void listarPerfumaria(){
+        ListModel<Produto> model = (ListModel<Produto>)  jListPerfume.getModel();
+        int tamanho = model.getSize();
+        for( int i = 0;i<tamanho;i++){
+            jListPerfume.remove(0);
+        }
+        ArrayList<Produto> produtos = controllerVenda.listPerfumaria();
+        DefaultListModel<Produto> listModel = new DefaultListModel<>();
+
+        for (Produto produto: produtos) {
+            listModel.addElement(produto);
+        }
+        jListPerfume.setModel(listModel);
+    }
     private void txtPerfumesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPerfumesActionPerformed
-
-
-
+        // TODO add your handling code here:
     }//GEN-LAST:event_txtPerfumesActionPerformed
 
     private void jListMedicamentosComponentHidden(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jListMedicamentosComponentHidden

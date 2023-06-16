@@ -20,6 +20,7 @@ private   ControllerConexao controllerConexao;
        controllerConexao = new ControllerConexao();
         initComponents();
 
+
     }
 
     /**
@@ -39,6 +40,10 @@ private   ControllerConexao controllerConexao;
         jMenuFabricante = new javax.swing.JMenuItem();
         jMenu = new javax.swing.JMenu();
         jMenuVenda = new javax.swing.JMenuItem();
+        jMenuConsultar = new javax.swing.JMenu();
+        menuFabricante = new javax.swing.JMenuItem();
+        menuMedicamento = new javax.swing.JMenuItem();
+        menuPerfumaria = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -104,6 +109,34 @@ private   ControllerConexao controllerConexao;
 
         jMenuBar1.add(jMenu);
 
+        jMenuConsultar.setText("Consultar");
+
+        menuFabricante.setText("Fabricante");
+        menuFabricante.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuFabricanteActionPerformed(evt);
+            }
+        });
+        jMenuConsultar.add(menuFabricante);
+
+        menuMedicamento.setText("Medicamento");
+        menuMedicamento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuMedicamentoActionPerformed(evt);
+            }
+        });
+        jMenuConsultar.add(menuMedicamento);
+
+        menuPerfumaria.setText("Perfumaria");
+        menuPerfumaria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuPerfumariaActionPerformed(evt);
+            }
+        });
+        jMenuConsultar.add(menuPerfumaria);
+
+        jMenuBar1.add(jMenuConsultar);
+
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -139,6 +172,24 @@ private   ControllerConexao controllerConexao;
         JanelaMedicamento med = new JanelaMedicamento();
         desktop.add(med);
         med.setVisible(true);    }//GEN-LAST:event_jMenuMedicamentoActionPerformed
+
+    private void menuFabricanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuFabricanteActionPerformed
+        JanelaConsultaFabricante consFab = new JanelaConsultaFabricante();
+        desktop.add(consFab);
+        consFab.setVisible(true);
+    }//GEN-LAST:event_menuFabricanteActionPerformed
+
+    private void menuMedicamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuMedicamentoActionPerformed
+        JanelaConsultaMedicamento consMed = new JanelaConsultaMedicamento();
+        desktop.add(consMed);
+        consMed.setVisible(true);
+    }//GEN-LAST:event_menuMedicamentoActionPerformed
+
+    private void menuPerfumariaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuPerfumariaActionPerformed
+       JanelaConsultaPerfumaria consPerf = new JanelaConsultaPerfumaria();
+       desktop.add(consPerf);
+       consPerf.setVisible(true);
+    }//GEN-LAST:event_menuPerfumariaActionPerformed
 
     private void jMenuPerfumariaActionPerformed(java.awt.event.ActionEvent evt) {                                                
         JanelaPerfumaria perf = new JanelaPerfumaria();
@@ -193,9 +244,13 @@ private   ControllerConexao controllerConexao;
     private javax.swing.JMenu jMenu;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenu jMenuConsultar;
     private javax.swing.JMenuItem jMenuFabricante;
     private javax.swing.JMenuItem jMenuMedicamento;
     private javax.swing.JMenuItem jMenuPerfumaria;
     private javax.swing.JMenuItem jMenuVenda;
+    private javax.swing.JMenuItem menuFabricante;
+    private javax.swing.JMenuItem menuMedicamento;
+    private javax.swing.JMenuItem menuPerfumaria;
     // End of variables declaration//GEN-END:variables
 }

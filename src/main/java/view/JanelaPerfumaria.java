@@ -97,7 +97,7 @@ private ControllerProduto controllerProduto;
         lblFabricante.setFont(new java.awt.Font("Arial Black", 1, 18)); // NOI18N
         lblFabricante.setText("Cadastro Perfume");
 
-
+        
         cbCNPJ.setSelectedIndex(-1);
         cbCNPJ.setToolTipText("");
         cbCNPJ.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
