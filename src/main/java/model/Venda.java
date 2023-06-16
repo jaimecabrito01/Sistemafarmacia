@@ -1,11 +1,15 @@
 package model;
 
+import java.util.Date;
+
 public class Venda {
     private int numeroNota;
-    private String data, nomeCliente, cnpj;
+    private String nomeCliente, cnpj;
+    private Date data;
 
 
-    public Venda(int numeroNota, String data, String nomeCliente, String cnpj) {
+
+    public Venda(int numeroNota, Date data, String nomeCliente, String cnpj) {
         this.numeroNota = numeroNota;
         this.data = data;
         this.nomeCliente = nomeCliente;
@@ -21,11 +25,11 @@ public class Venda {
         this.numeroNota = numeroNota;
     }
 
-    public String getData() {
+    public Date getData() {
         return data;
     }
 
-    public void setData(String data) {
+    public void setData(Date data) {
         this.data = data;
     }
 

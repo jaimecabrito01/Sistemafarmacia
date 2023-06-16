@@ -38,4 +38,6 @@ public class Medicamento {
     public void setFormula(String formula) {
         this.formula = formula;
     }
+
+
 }

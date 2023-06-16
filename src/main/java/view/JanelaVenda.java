@@ -10,6 +10,9 @@ import model.Perfumaria;
 import model.Produto;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 /**
@@ -42,22 +45,18 @@ private ControllerVenda controllerVenda;
         lblNomeCliente = new javax.swing.JLabel();
         txtNomeCliente = new javax.swing.JTextField();
         lblTeladeVendas = new javax.swing.JLabel();
-        lblMendicamentosTitulo = new javax.swing.JLabel();
-        lblQTDMedicamentos = new javax.swing.JLabel();
-        txtQntMed1 = new javax.swing.JTextField();
-        lblPerfumes = new javax.swing.JLabel();
-        lblQTDPerfume = new javax.swing.JLabel();
-        txtQTDPerfume = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jListPerfume = new javax.swing.JList<>();
         jScrollPane2 = new javax.swing.JScrollPane();
         jListMedicamentos = new javax.swing.JList<>();
-        txtPerfumes = new javax.swing.JTextField();
-        lblMedicamentos = new javax.swing.JLabel();
-        txtMedicamentos = new javax.swing.JTextField();
         lblPerfume = new javax.swing.JLabel();
         btnCadVenda = new javax.swing.JButton();
         lblMedicamentosItem = new javax.swing.JLabel();
+        btnInserirPerfume = new javax.swing.JButton();
+        btnInserirMed = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tblProdutos = new javax.swing.JTable();
 
         jRadioButtonMenuItem1.setSelected(true);
         jRadioButtonMenuItem1.setText("jRadioButtonMenuItem1");
@@ -74,18 +73,11 @@ private ControllerVenda controllerVenda;
         lblTeladeVendas.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         lblTeladeVendas.setText("Tela de Vendas");
 
-        lblMendicamentosTitulo.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        lblMendicamentosTitulo.setText("Medicamentos");
-
-        lblQTDMedicamentos.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        lblQTDMedicamentos.setText("Quantidade Medicamentos:");
-
-        lblPerfumes.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        lblPerfumes.setText("Perfumes:");
-
-        lblQTDPerfume.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        lblQTDPerfume.setText("Quatidade Perfumes:");
-
+        jListPerfume.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jListPerfumeMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jListPerfume);
 
         jListMedicamentos.addComponentListener(new java.awt.event.ComponentAdapter() {
@@ -95,19 +87,25 @@ private ControllerVenda controllerVenda;
         });
         jScrollPane2.setViewportView(jListMedicamentos);
 
-        txtPerfumes.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtPerfumesActionPerformed(evt);
-            }
-        });
-
-        lblMedicamentos.setText("Medicamentos:");
-
         lblPerfume.setText("Perfume");
 
         btnCadVenda.setText("Cadastrar Venda");
+        btnCadVenda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCadVendaActionPerformed(evt);
+            }
+        });
 
         lblMedicamentosItem.setText("Medicamentos");
+
+        btnInserirPerfume.setText("Inserir Perfume");
+        btnInserirPerfume.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInserirPerfumeActionPerformed(evt);
+            }
+        });
+
+        btnInserirMed.setText("Inserir Medicamento");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -117,36 +115,14 @@ private ControllerVenda controllerVenda;
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(218, 218, 218)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(lblMendicamentosTitulo)
-                            .addComponent(lblTeladeVendas)))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(128, 128, 128)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(lblNomeCliente)
-                                            .addComponent(lblPerfumes))
-                                        .addGap(18, 18, 18))
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addComponent(lblMedicamentos)
-                                        .addGap(29, 29, 29)))
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtMedicamentos, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtPerfumes, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtNomeCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addGroup(jPanel2Layout.createSequentialGroup()
-                                    .addComponent(lblQTDMedicamentos)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(txtQntMed1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(jPanel2Layout.createSequentialGroup()
-                                    .addComponent(lblQTDPerfume)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(txtQTDPerfume, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblTeladeVendas)
+                        .addGap(0, 14, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(lblNomeCliente)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtNomeCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblPerfume)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -154,11 +130,17 @@ private ControllerVenda controllerVenda;
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblMedicamentosItem)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(26, 26, 26))
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(198, 198, 198)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnInserirPerfume)
+                .addGap(181, 181, 181)
+                .addComponent(btnInserirMed)
+                .addGap(104, 104, 104))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(301, 301, 301)
                 .addComponent(btnCadVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -167,37 +149,51 @@ private ControllerVenda controllerVenda;
                 .addComponent(lblTeladeVendas)
                 .addGap(15, 15, 15)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblMendicamentosTitulo)
                     .addComponent(lblPerfume)
                     .addComponent(lblMedicamentosItem))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(36, 36, 36)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtNomeCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblNomeCliente))
-                        .addGap(8, 8, 8)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtPerfumes, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblPerfumes))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtMedicamentos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblMedicamentos))
-                        .addGap(24, 24, 24)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtQTDPerfume, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblQTDPerfume))
-                        .addGap(21, 21, 21)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblQTDMedicamentos)
-                            .addComponent(txtQntMed1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
-                .addGap(41, 41, 41)
+                            .addComponent(lblNomeCliente)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnInserirPerfume)
+                    .addComponent(btnInserirMed))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
                 .addComponent(btnCadVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(206, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        tblProdutos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane3.setViewportView(tblProdutos);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(200, 200, 200)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 471, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(15, 15, 15))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -206,14 +202,19 @@ private ControllerVenda controllerVenda;
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 11, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
@@ -229,8 +230,15 @@ private ControllerVenda controllerVenda;
 
         for (Produto produto: produtos) {
             listModel.addElement(produto);
+            System.out.println("teste");
         }
         jListMedicamentos.setModel(listModel);
+    }
+    private static java.sql.Date obterdata(){
+        LocalDate  dataAtual= LocalDate.now();
+
+        return java.sql.Date.valueOf(dataAtual);
+
     }
     public  void listarPerfumaria(){
         ListModel<Produto> model = (ListModel<Produto>)  jListPerfume.getModel();
@@ -241,41 +249,59 @@ private ControllerVenda controllerVenda;
         ArrayList<Produto> produtos = controllerVenda.listPerfumaria();
         DefaultListModel<Produto> listModel = new DefaultListModel<>();
 
-        for (Produto produto: produtos) {
+         for(Produto produto: produtos) {
+
             listModel.addElement(produto);
         }
         jListPerfume.setModel(listModel);
     }
-    private void txtPerfumesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPerfumesActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtPerfumesActionPerformed
-
     private void jListMedicamentosComponentHidden(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jListMedicamentosComponentHidden
+
         // TODO add your handling code here:
     }//GEN-LAST:event_jListMedicamentosComponentHidden
+
+    private void btnCadVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadVendaActionPerformed
+    String nome_cliente = txtNomeCliente.getText().trim();
+
+
+        
+
+    }//GEN-LAST:event_btnCadVendaActionPerformed
+
+    private void btnInserirPerfumeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInserirPerfumeActionPerformed
+    int[] indices = jListMedicamentos.getSelectedIndices();
+    for(int i =0;i<indices.length;i++){
+       String nome= jListPerfume.getSelectedValue().getNome_comercial();
+        jListPerfume.getSelectedValue().getQuantidade();
+        jListPerfume.getSelectedValue().getNumero();
+        System.out.println(nome);
+    }
+
+    }//GEN-LAST:event_btnInserirPerfumeActionPerformed
+
+    private void jListPerfumeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jListPerfumeMouseClicked
+       
+
+    }//GEN-LAST:event_jListPerfumeMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCadVenda;
+    private javax.swing.JButton btnInserirMed;
+    private javax.swing.JButton btnInserirPerfume;
     private javax.swing.JList<Produto> jListMedicamentos;
     private javax.swing.JList<Produto> jListPerfume;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JLabel lblMedicamentos;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel lblMedicamentosItem;
-    private javax.swing.JLabel lblMendicamentosTitulo;
     private javax.swing.JLabel lblNomeCliente;
     private javax.swing.JLabel lblPerfume;
-    private javax.swing.JLabel lblPerfumes;
-    private javax.swing.JLabel lblQTDMedicamentos;
-    private javax.swing.JLabel lblQTDPerfume;
     private javax.swing.JLabel lblTeladeVendas;
-    private javax.swing.JTextField txtMedicamentos;
+    private javax.swing.JTable tblProdutos;
     private javax.swing.JTextField txtNomeCliente;
-    private javax.swing.JTextField txtPerfumes;
-    private javax.swing.JTextField txtQTDPerfume;
-    private javax.swing.JTextField txtQntMed1;
     // End of variables declaration//GEN-END:variables
 }
