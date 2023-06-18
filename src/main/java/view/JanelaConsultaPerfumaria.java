@@ -4,17 +4,26 @@
  */
 package view;
 
+import controllers.ControllerProduto;
+import model.MedicamentoList;
+import model.PerfumeList;
+
+import javax.swing.table.DefaultTableModel;
+import java.util.ArrayList;
+
 /**
  *
  * @author 202112030001
  */
 public class JanelaConsultaPerfumaria extends javax.swing.JInternalFrame {
-
+private ControllerProduto controllerProduto;
     /**
      * Creates new form JanelaConsultaPerfumaria
      */
     public JanelaConsultaPerfumaria() {
+        controllerProduto = new ControllerProduto();
         initComponents();
+        carregarTabela();
     }
 
     /**
@@ -31,15 +40,15 @@ public class JanelaConsultaPerfumaria extends javax.swing.JInternalFrame {
         jLabel2 = new javax.swing.JLabel();
         txtNome = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        cmbFabricante = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
         txtNumProd = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         cmbTipo = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblPerfumaria = new javax.swing.JTable();
         btnConsultar = new javax.swing.JButton();
         btnLimpar = new javax.swing.JButton();
+        txtFab = new javax.swing.JTextField();
 
         setClosable(true);
         setTitle("Consulta Perfumaria");
@@ -51,8 +60,6 @@ public class JanelaConsultaPerfumaria extends javax.swing.JInternalFrame {
 
         jLabel3.setText("Fabricante:");
 
-        cmbFabricante.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         jLabel4.setText("Número Produto:");
 
         jLabel5.setText("Tipo:");
@@ -60,7 +67,7 @@ public class JanelaConsultaPerfumaria extends javax.swing.JInternalFrame {
         cmbTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Masculino", "Feminino", "Infantil", "Para Animais" }));
         cmbTipo.setSelectedIndex(-1);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblPerfumaria.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -86,9 +93,14 @@ public class JanelaConsultaPerfumaria extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblPerfumaria);
 
         btnConsultar.setText("Consultar");
+        btnConsultar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConsultarActionPerformed(evt);
+            }
+        });
 
         btnLimpar.setText("Limpar");
         btnLimpar.addActionListener(new java.awt.event.ActionListener() {
@@ -103,20 +115,22 @@ public class JanelaConsultaPerfumaria extends javax.swing.JInternalFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(79, 79, 79)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtFab)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtNumProd, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cmbFabricante, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel5)
                         .addGap(18, 18, 18)
                         .addComponent(cmbTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -144,9 +158,9 @@ public class JanelaConsultaPerfumaria extends javax.swing.JInternalFrame {
                         .addGap(26, 26, 26)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
-                            .addComponent(cmbFabricante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(cmbTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5))
+                            .addComponent(jLabel5)
+                            .addComponent(txtFab, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
@@ -181,15 +195,71 @@ public class JanelaConsultaPerfumaria extends javax.swing.JInternalFrame {
     limparCampos();
     }//GEN-LAST:event_btnLimparActionPerformed
 
+    private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
+    String fab1 = txtFab.getText().trim();
+    String nome1 = txtNome.getText().trim();
+    String tipo1 = cmbTipo.getSelectedItem().toString();
+
+    String numero1 = txtNumProd.getText().trim();
+
+   ArrayList<PerfumeList>  perfumeLists =controllerProduto.consultarPerfume(fab1,nome1,numero1,tipo1);
+        DefaultTableModel modeloTabela =
+                (DefaultTableModel) tblPerfumaria.getModel();
+        int quant= tblPerfumaria.getRowCount();
+        for(int i=0;i<quant;i++){
+            modeloTabela.removeRow(0);
+        }
+        for (PerfumeList produto: perfumeLists
+        ) {
+            String fab = produto.getFabricante();
+            String nome = produto.getNome_comercial();
+            String numero = produto.getNumero();
+            String tipo = produto.getTipo();
+
+            modeloTabela.addRow(new Object[]{
+                    fab,
+                    nome,
+                    numero,
+                    tipo
+            });
+
+        }
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnConsultarActionPerformed
+
     private void limparCampos(){
         txtNome.setText("");
         txtNumProd.setText("");
+    }
+    public  void carregarTabela(){
+        ArrayList<PerfumeList> perfumes = controllerProduto.listarPerfumes();
+        DefaultTableModel modeloTabela =
+                (DefaultTableModel) tblPerfumaria.getModel();
+        int quant= tblPerfumaria.getRowCount();
+        for(int i=0;i<quant;i++){
+            modeloTabela.removeRow(0);
+        }
+        for (PerfumeList produto: perfumes
+        ) {
+            String fab = produto.getFabricante();
+            String nome = produto.getNome_comercial();
+            String numero = produto.getNumero();
+            String tipo = produto.getTipo();
+
+            modeloTabela.addRow(new Object[]{
+                    fab,
+                    nome,
+                    numero,
+                    tipo
+            });
+
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnConsultar;
     private javax.swing.JButton btnLimpar;
-    private javax.swing.JComboBox<String> cmbFabricante;
     private javax.swing.JComboBox<String> cmbTipo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -198,7 +268,8 @@ public class JanelaConsultaPerfumaria extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tblPerfumaria;
+    private javax.swing.JTextField txtFab;
     private javax.swing.JTextField txtNome;
     private javax.swing.JTextField txtNumProd;
     // End of variables declaration//GEN-END:variables

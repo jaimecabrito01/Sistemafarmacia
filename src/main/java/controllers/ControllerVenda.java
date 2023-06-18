@@ -2,6 +2,7 @@ package controllers;
 
 import model.*;
 import service.ProdutoService;
+import service.ReceitaService;
 import service.VendaService;
 
 import java.util.ArrayList;
@@ -11,10 +12,13 @@ public class ControllerVenda {
     private  String mensagem ;
     private ProdutoService produtoService;
     private VendaService vendaService;
+    private ReceitaService receitaMedica;
 
     public ControllerVenda() {
        produtoService = new ProdutoService();
        vendaService = new VendaService();
+       receitaMedica = new ReceitaService();
+
     }
 
     public String getMensagem() {
@@ -25,8 +29,8 @@ public class ControllerVenda {
         this.mensagem = mensagem;
     }
 
-    public  boolean insertVenda(int numero_nota, Date data,String nome_cliente,String cnpj){
-        Venda venda = new Venda(numero_nota,data,nome_cliente,cnpj);
+    public  boolean insertVenda(int numero_nota, Date data,String nome_cliente){
+        Venda venda = new Venda(numero_nota,data,nome_cliente);
         boolean inseriu = vendaService.insertVenda(venda);
         mensagem = vendaService.getMensagem();
         return false;
@@ -52,6 +56,16 @@ public class ControllerVenda {
         VendaPerfumaria vendaPerfumaria = new VendaPerfumaria(numero,numero_nota,imposto,quantidade);
         boolean inseriu = vendaService.insertVendaPerfumaria(vendaPerfumaria);
         mensagem = vendaService.getMensagem();
+        return  false;
+    }
+
+    public  boolean insertReceita(int numero,int crm,Date data){
+        System.out.println(data);
+        System.out.println(numero);
+        System.out.println(crm);
+        ReceitaMedica receitaMedica1 = new ReceitaMedica(numero,crm,data);
+        boolean inseriu = receitaMedica.insertReceitaMedica(receitaMedica1);
+        mensagem = receitaMedica.getMensagem();
         return  false;
     }
 }

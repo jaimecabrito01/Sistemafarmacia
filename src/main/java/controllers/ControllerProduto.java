@@ -1,9 +1,9 @@
 package controllers;
 
-import model.Medicamento;
-import model.Perfumaria;
-import model.Produto;
+import model.*;
 import service.ProdutoService;
+
+import java.util.ArrayList;
 
 public class ControllerProduto {
     private String mensagem;
@@ -38,6 +38,26 @@ public class ControllerProduto {
         mensagem = produtoService.getMensagem();
         return false;
 
+    }
+    public ArrayList<MedicamentoList> consultarMedicamentos(){
+        ArrayList<MedicamentoList> medicamentos = produtoService.consultarMedicamentos();
+        mensagem = produtoService.getMensagem();
+        return  medicamentos;
+    }
+    public  ArrayList<MedicamentoList> listarMed(String nome,String fab,String tarja){
+        ArrayList<MedicamentoList> result = produtoService.consultaMedicamento(nome,fab,tarja);
+        mensagem = produtoService.getMensagem();
+        return  result;
+    }
+    public  ArrayList<PerfumeList> consultarPerfume(String fab,String nome,String num,String tipo){
+        ArrayList<PerfumeList>  result = produtoService.consultaPerfume(fab,nome,num,tipo);
+        mensagem = produtoService.getMensagem();
+        return  result;
+    }
+    public  ArrayList<PerfumeList> listarPerfumes(){
+        ArrayList<PerfumeList>  result = produtoService.listPerfum();
+        mensagem = produtoService.getMensagem();
+        return  result;
     }
 
 }

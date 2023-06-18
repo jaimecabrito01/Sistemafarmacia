@@ -1,10 +1,7 @@
 package service;
 
 import data.ConexaoBanco;
-import model.Fabricante;
-import model.Medicamento;
-import model.Perfumaria;
-import model.Produto;
+import model.*;
 
 
 import java.sql.*;
@@ -146,6 +143,175 @@ public class ProdutoService {
         mensagem = "Banco não conectado";
         return  null;
     }
+    public ArrayList<MedicamentoList> consultarMedicamentos(){
+        if(conexaoBanco.isConectado()){
+
+            try {
+                Connection connection = conexaoBanco.getConnection();
+                String sql = "SELECT f.nome, p.nome_comercial, m.tarja FROM fabricante f JOIN produto p ON p.CNPJ = f.CNPJ JOIN medicamento m ON m.numero = p.numero";
+                Statement statement = connection.createStatement();
+                ResultSet resultSet = statement.executeQuery(sql);
+                ArrayList<MedicamentoList> produtos = new ArrayList<>();
+                while(resultSet.next()){
+                String nome = resultSet.getString("nome");
+                String nome_comercial = resultSet.getString("nome_comercial");
+                String tarja = resultSet.getString("tarja");
+                MedicamentoList medicamentoList = new MedicamentoList(nome,nome_comercial,tarja);
+                produtos.add(medicamentoList);
+                }
+                return produtos;
+
+            } catch (SQLException e) {
+                mensagem = e.getMessage();
+                return null;
+            }
+
+        }
+        mensagem = "Banco não conectado";
+        return  null;
+    }
+    public String montarSelect(String nome_comercial, String fabricante, String tarja) {
+        StringBuilder sql = new StringBuilder("SELECT f.nome, p.nome_comercial, m.tarja FROM fabricante f JOIN produto p ON p.CNPJ = f.CNPJ JOIN medicamento m ON m.numero = p.numero ");
+
+        boolean where = false;
+
+        if (!tarja.isEmpty()) {
+            sql.append(" WHERE m.tarja = '" + tarja + "'");
+            where = true;
+        }
+
+        if (!fabricante.isEmpty()) {
+            sql.append(where ? " AND" : " WHERE");
+            sql.append(" f.nome LIKE '%" + fabricante + "%'");
+            where = true;
+        }
+
+        if (!nome_comercial.isEmpty()) {
+            sql.append(where ? " AND" : " WHERE");
+            sql.append(" p.nome_comercial LIKE '%" + nome_comercial + "%'");
+        }
+
+        return sql.toString();
+    }
+
+    public  ArrayList<MedicamentoList>  consultaMedicamento(String nome_comercial,String fabricante,String tarja){
+        if(conexaoBanco.isConectado()){
+
+            try {
+                Connection connection = conexaoBanco.getConnection();
+                Statement statement = connection.createStatement();
+                String sql = montarSelect(nome_comercial,fabricante,tarja);
+                System.out.println(sql);
+                ResultSet resultSet = statement.executeQuery(sql);
+                ArrayList<MedicamentoList> produtos = new ArrayList<>();
+                while(resultSet.next()){
+                    String nome = resultSet.getString("nome");
+                    String nome_comercial1 = resultSet.getString("nome_comercial");
+                    String tarja1 = resultSet.getString("tarja");
+                    MedicamentoList medicamentoList = new MedicamentoList(nome,nome_comercial1,tarja1);
+                    produtos.add(medicamentoList);
+                }
+                return produtos;
+
+            } catch (SQLException e) {
+                mensagem = e.getMessage();
+                return null;
+            }
+
+        }
+        mensagem = "Banco não conectado";
+        return  null;
+    }
+    public String montarSelectPerfumaria(String fabricante, String nome_comercial, String numero, String tipo) {
+        StringBuilder sql = new StringBuilder("SELECT f.nome, p.nome_comercial, m.numero, m.tipo FROM fabricante f JOIN produto p ON p.CNPJ = f.CNPJ JOIN perfumaria m ON m.numero = p.numero");
+
+        boolean where = false;
+
+        if (!numero.isEmpty()) {
+            sql.append(" WHERE m.numero = " + numero);
+            where = true;
+        }
+
+        if (!fabricante.isEmpty()) {
+            sql.append(where ? " AND" : " WHERE");
+            sql.append(" f.nome LIKE '%" + fabricante + "%'");
+            where = true;
+        }
+
+        if (!nome_comercial.isEmpty()) {
+            sql.append(where ? " AND" : " WHERE");
+            sql.append(" p.nome_comercial LIKE '%" + nome_comercial + "%'");
+            where = true;
+        }
+
+        if (!tipo.isEmpty()) {
+            sql.append(where ? " AND" : " WHERE");
+            sql.append(" m.tipo = '" + tipo + "'");
+        }
+
+        return sql.toString();
+    }
+
+    public  ArrayList<PerfumeList>  consultaPerfume(String fabricante,String nome_comercial,String numero,String tipo){
+        if(conexaoBanco.isConectado()){
+
+            try {
+                Connection connection = conexaoBanco.getConnection();
+                Statement statement = connection.createStatement();
+                String sql = montarSelectPerfumaria(fabricante,nome_comercial,numero,tipo);
+                System.out.println(sql);
+                ResultSet resultSet = statement.executeQuery(sql);
+                ArrayList<PerfumeList> produtos = new ArrayList<>();
+                while(resultSet.next()){
+                    String fabricante1 = resultSet.getString("nome");
+                    String nome_comercial1 = resultSet.getString("nome_comercial");
+                    int num = resultSet.getInt("numero");
+                    String tipo1 = resultSet.getString("tipo");
+                    PerfumeList perfumeList = new PerfumeList(fabricante1,nome_comercial1,String.valueOf(num),tipo);
+                    produtos.add(perfumeList);
+                }
+                return produtos;
+
+            } catch (SQLException e) {
+                mensagem = e.getMessage();
+                return null;
+            }
+
+        }
+        mensagem = "Banco não conectado";
+        return  null;
+    }
+    public  ArrayList<PerfumeList>  listPerfum(){
+        if(conexaoBanco.isConectado()){
+
+            try {
+                Connection connection = conexaoBanco.getConnection();
+                Statement statement = connection.createStatement();
+                String sql = "SELECT f.nome, p.nome_comercial,m.numero,m.tipo FROM fabricante f JOIN produto p ON p.CNPJ = f.CNPJ JOIN perfumaria m ON m.numero = p.numero;";
+
+                ResultSet resultSet = statement.executeQuery(sql);
+                ArrayList<PerfumeList> produtos = new ArrayList<>();
+                while(resultSet.next()){
+                    String fabricante1 = resultSet.getString("nome");
+                    String nome_comercial1 = resultSet.getString("nome_comercial");
+                    int num = resultSet.getInt("numero");
+                    String tipo1 = resultSet.getString("tipo");
+                    PerfumeList perfumeList = new PerfumeList(fabricante1,nome_comercial1,String.valueOf(num),tipo1);
+                    produtos.add(perfumeList);
+                }
+                return produtos;
+
+            } catch (SQLException e) {
+                mensagem = e.getMessage();
+                return null;
+            }
+
+        }
+        mensagem = "Banco não conectado";
+        return  null;
+    }
+
+
 
     public String getMensagem() {
         return mensagem;

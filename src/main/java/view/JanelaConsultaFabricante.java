@@ -4,17 +4,27 @@
  */
 package view;
 
+import controllers.ControllerFabricante;
+import controllers.ControllerVenda;
+import model.Fabricante;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.util.ArrayList;
+
 /**
  *
  * @author 202112030001
  */
 public class JanelaConsultaFabricante extends javax.swing.JInternalFrame {
-
+private ControllerFabricante controllerFabricante;
     /**
      * Creates new form JanelaConsultaFabricante
      */
     public JanelaConsultaFabricante() {
+        controllerFabricante = new ControllerFabricante();
         initComponents();
+        carregarTabela();
     }
 
     /**
@@ -36,7 +46,7 @@ public class JanelaConsultaFabricante extends javax.swing.JInternalFrame {
         btnConsultar = new javax.swing.JButton();
         btnLimpar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblFab = new javax.swing.JTable();
 
         jMenuItem1.setText("jMenuItem1");
 
@@ -53,6 +63,11 @@ public class JanelaConsultaFabricante extends javax.swing.JInternalFrame {
         jLabel3.setText("Nome:");
 
         btnConsultar.setText("Consultar");
+        btnConsultar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConsultarActionPerformed(evt);
+            }
+        });
 
         btnLimpar.setText("Limpar");
         btnLimpar.addActionListener(new java.awt.event.ActionListener() {
@@ -61,33 +76,26 @@ public class JanelaConsultaFabricante extends javax.swing.JInternalFrame {
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblFab.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "CNPJ", "Nome"
+                "CNPJ", "Nome", "Endereço"
             }
         ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class
-            };
             boolean[] canEdit = new boolean [] {
-                false, false
+                false, false, false
             };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblFab);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -156,6 +164,55 @@ public class JanelaConsultaFabricante extends javax.swing.JInternalFrame {
         limparCampos();
     }//GEN-LAST:event_btnLimparActionPerformed
 
+    private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
+    String cnpj = txtCNPJ.getText().trim();
+    String nome = txtNome.getText().trim();
+
+    ArrayList<Fabricante> fabricantes =  controllerFabricante.consultarFabricantes(cnpj,nome);
+    DefaultTableModel modeloTabela =
+                (DefaultTableModel) tblFab.getModel();
+    int quant= tblFab.getRowCount();
+        for(int i=0;i<quant;i++){
+            modeloTabela.removeRow(0);
+        }
+        for (Fabricante fabricante: fabricantes
+             ) { String cnpj1 = fabricante.getCnpj();
+            String nome1 =fabricante.getNome();
+            String endereco = fabricante.getBairro();
+            endereco += "," + fabricante.getRua();
+            endereco +="," + fabricante.getNumero();
+            modeloTabela.addRow(new Object[]{
+                    cnpj1,
+                    nome1,
+                    endereco
+            });
+
+        }
+
+    }//GEN-LAST:event_btnConsultarActionPerformed
+    public  void carregarTabela(){
+        ArrayList<Fabricante> fabricantes = controllerFabricante.consultarFabricante();
+        DefaultTableModel modeloTabela =
+                (DefaultTableModel) tblFab.getModel();
+        int quant= tblFab.getRowCount();
+        for(int i=0;i<quant;i++){
+            modeloTabela.removeRow(0);
+        }
+        for (Fabricante fabricante: fabricantes
+        ) {
+            String cnpj = fabricante.getCnpj();
+            String nome =fabricante.getNome();
+            String endereco = fabricante.getBairro();
+            endereco += "," + fabricante.getRua();
+            endereco +="," + fabricante.getNumero();
+            modeloTabela.addRow(new Object[]{
+                    cnpj,
+                    nome,
+                    endereco
+            });
+
+        }
+    }
     private void limparCampos(){
         txtCNPJ.setText("");
         txtNome.setText("");
@@ -170,7 +227,7 @@ public class JanelaConsultaFabricante extends javax.swing.JInternalFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tblFab;
     private javax.swing.JTextField txtCNPJ;
     private javax.swing.JTextField txtNome;
     // End of variables declaration//GEN-END:variables

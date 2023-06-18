@@ -9,11 +9,11 @@ public class Venda {
 
 
 
-    public Venda(int numeroNota, Date data, String nomeCliente, String cnpj) {
+    public Venda(int numeroNota, Date data, String nomeCliente) {
         this.numeroNota = numeroNota;
         this.data = data;
         this.nomeCliente = nomeCliente;
-        this.cnpj = cnpj;
+
     }
 
 
@@ -41,11 +41,8 @@ public class Venda {
         this.nomeCliente = nomeCliente;
     }
 
-    public String getCnpj() {
-        return cnpj;
-    }
 
-    public void setCnpj(String cnpj) {
-        this.cnpj = cnpj;
-    }
+
+
+
 }

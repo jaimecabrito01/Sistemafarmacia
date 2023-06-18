@@ -27,14 +27,13 @@ public class VendaService {
 
             try {
                 Connection connection = conexaoBanco.getConnection();
-                String sql = "insert into venda (numero_nota,data,Nome_cliente,cnpj) ";
+                String sql = "insert into venda (numero_nota,data,Nome_cliente) ";
                 sql+= " values ";
                 sql+="(?,?,?) ;";
                 PreparedStatement preparedStatement = connection.prepareStatement(sql);
                 preparedStatement.setInt(1,venda.getNumeroNota());
                 preparedStatement.setDate(2,new java.sql.Date(venda.getData().getTime()));
                 preparedStatement.setString(3,venda.getNomeCliente());
-                preparedStatement.setString(4,venda.getCnpj());
                 preparedStatement.executeUpdate();
                 mensagem = "Dados inseridos!";
                 return  true;
@@ -55,10 +54,10 @@ public class VendaService {
                 sql+= " values ";
                 sql+="(?,?,?,?,?) ;";
                 PreparedStatement preparedStatement = connection.prepareStatement(sql);
-                preparedStatement.setInt(1,vendaMedicamento.getNumero_nota());
+                preparedStatement.setInt(1,vendaMedicamento.getNumero_produto());
                 preparedStatement.setInt(2,vendaMedicamento.getNumero_nota());
                 preparedStatement.setInt(3,vendaMedicamento.getNumero_receita());
-                preparedStatement.setInt(3,vendaMedicamento.getQuantidade());
+                preparedStatement.setInt(4,vendaMedicamento.getQuantidade());
                 preparedStatement.setDouble(5,vendaMedicamento.getImposto());
                 preparedStatement.executeUpdate();
                 mensagem = "Dados inseridos!";
@@ -76,14 +75,15 @@ public class VendaService {
 
             try {
                 Connection connection = conexaoBanco.getConnection();
-                String sql = "insert into vendaperfumaria (numero_produto,numero_nota,quantidade,imposto) ";
+                String sql = "insert into vendaperfumaria (numero_produto,numero_nota,imposto,quantidade) ";
                 sql+= " values ";
                 sql+="(?,?,?,?) ;";
                 PreparedStatement preparedStatement = connection.prepareStatement(sql);
                 preparedStatement.setInt(1,vendaPerfumaria.getNumero_produto());
                 preparedStatement.setInt(2,vendaPerfumaria.getNumero_nota());
-                preparedStatement.setInt(3,vendaPerfumaria.getQuantidade());
-                preparedStatement.setDouble(4,vendaPerfumaria.getImposto());
+                preparedStatement.setDouble(3,vendaPerfumaria.getImposto());
+                preparedStatement.setInt(4,vendaPerfumaria.getQuantidade());
+
                 preparedStatement.executeUpdate();
                 mensagem = "Dados inseridos!";
                 return  true;

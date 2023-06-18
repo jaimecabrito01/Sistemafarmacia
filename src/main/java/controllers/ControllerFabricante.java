@@ -31,9 +31,14 @@ private String mensagem;
 
         ArrayList<Fabricante> fabricantes = fabricanteService.consultar();
         mensagem = fabricanteService.getMensagem();;
-        System.out.println(fabricantes);
+
         return fabricantes;
 
+    }
+    public  ArrayList<Fabricante> consultarFabricantes(String cnpj,String nome){
+        ArrayList<Fabricante>  fabricantes = fabricanteService.consultarFabricantes(cnpj,nome);
+        mensagem = fabricanteService.getMensagem();
+        return  fabricantes;
     }
 
 

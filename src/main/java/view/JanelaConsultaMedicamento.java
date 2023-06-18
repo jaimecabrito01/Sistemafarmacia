@@ -4,17 +4,27 @@
  */
 package view;
 
+import controllers.ControllerProduto;
+import model.Fabricante;
+import model.MedicamentoList;
+import model.Produto;
+
+import javax.swing.table.DefaultTableModel;
+import java.util.ArrayList;
+
 /**
  *
  * @author 202112030001
  */
 public class JanelaConsultaMedicamento extends javax.swing.JInternalFrame {
-
+private ControllerProduto controllerProduto;
     /**
      * Creates new form JanelaConsultaMedicamento
      */
     public JanelaConsultaMedicamento() {
+        controllerProduto = new ControllerProduto();
         initComponents();
+        carregarTabela();
     }
 
     /**
@@ -31,13 +41,13 @@ public class JanelaConsultaMedicamento extends javax.swing.JInternalFrame {
         jLabel2 = new javax.swing.JLabel();
         txtConsultaNome = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        cmbConsultaMedicamentos = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
         cmbTarjaMed = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblMedicamentos = new javax.swing.JTable();
         btnConsultar = new javax.swing.JButton();
         btnLimpar = new javax.swing.JButton();
+        txtFab = new javax.swing.JTextField();
 
         setClosable(true);
         setTitle("Consultar Medicamentos");
@@ -49,14 +59,11 @@ public class JanelaConsultaMedicamento extends javax.swing.JInternalFrame {
 
         jLabel3.setText("Fabricante:");
 
-        cmbConsultaMedicamentos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        cmbConsultaMedicamentos.setSelectedIndex(-1);
-
         jLabel4.setText("Tarja:");
 
         cmbTarjaMed.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sem Tarja", "Tarja Amarela", "Tarja Vermelha", "Tarja Preta" }));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblMedicamentos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -82,7 +89,7 @@ public class JanelaConsultaMedicamento extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblMedicamentos);
 
         btnConsultar.setText("Consultar");
         btnConsultar.addActionListener(new java.awt.event.ActionListener() {
@@ -111,15 +118,14 @@ public class JanelaConsultaMedicamento extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(jLabel3)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(cmbConsultaMedicamentos, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel2)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(txtConsultaNome, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(jLabel3))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtConsultaNome, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtFab, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(48, 48, 48)
@@ -141,7 +147,7 @@ public class JanelaConsultaMedicamento extends javax.swing.JInternalFrame {
                         .addGap(35, 35, 35)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
-                            .addComponent(cmbConsultaMedicamentos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtFab, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
@@ -178,13 +184,61 @@ public class JanelaConsultaMedicamento extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
+        String fabricante = txtFab.getText().trim();
+        String nome = txtConsultaNome.getText().trim();
+        String tarja1 = cmbTarjaMed.getSelectedItem().toString();
+
+
+        ArrayList<MedicamentoList> medicamentos = controllerProduto.listarMed(nome,fabricante,tarja1);
+        DefaultTableModel modeloTabela =
+                (DefaultTableModel) tblMedicamentos.getModel();
+        int quant= tblMedicamentos.getRowCount();
+        for(int i=0;i<quant;i++){
+            modeloTabela.removeRow(0);
+        }
+        for (MedicamentoList produto: medicamentos
+        ) {
+            String fab = produto.getFabricante();
+            String nome1 = produto.getNome_comercial();
+            String tarja = produto.getTarja();
+
+            modeloTabela.addRow(new Object[]{
+                    fab,
+                    nome1,
+                    tarja
+            });
+
+        }
+
+
         // TODO add your handling code here:
     }//GEN-LAST:event_btnConsultarActionPerformed
 
     private void btnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparActionPerformed
         limparCampos();
     }//GEN-LAST:event_btnLimparActionPerformed
+    public  void carregarTabela(){
+        ArrayList<MedicamentoList> medicamentos = controllerProduto.consultarMedicamentos();
+        DefaultTableModel modeloTabela =
+                (DefaultTableModel) tblMedicamentos.getModel();
+        int quant= tblMedicamentos.getRowCount();
+        for(int i=0;i<quant;i++){
+            modeloTabela.removeRow(0);
+        }
+        for (MedicamentoList produto: medicamentos
+        ) {
+            String fab = produto.getFabricante();
+            String nome = produto.getNome_comercial();
+            String tarja = produto.getTarja();
 
+            modeloTabela.addRow(new Object[]{
+                    fab,
+                    nome,
+                    tarja
+            });
+
+        }
+    }
     private void limparCampos(){
         txtConsultaNome.setText("");
     }
@@ -192,7 +246,6 @@ public class JanelaConsultaMedicamento extends javax.swing.JInternalFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnConsultar;
     private javax.swing.JButton btnLimpar;
-    private javax.swing.JComboBox<String> cmbConsultaMedicamentos;
     private javax.swing.JComboBox<String> cmbTarjaMed;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -200,7 +253,8 @@ public class JanelaConsultaMedicamento extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tblMedicamentos;
     private javax.swing.JTextField txtConsultaNome;
+    private javax.swing.JTextField txtFab;
     // End of variables declaration//GEN-END:variables
 }

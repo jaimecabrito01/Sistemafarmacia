@@ -38,6 +38,7 @@ private   ControllerConexao controllerConexao;
         jMenuPerfumaria = new javax.swing.JMenuItem();
         jMenuMedicamento = new javax.swing.JMenuItem();
         jMenuFabricante = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
         jMenu = new javax.swing.JMenu();
         jMenuVenda = new javax.swing.JMenuItem();
         jMenuConsultar = new javax.swing.JMenu();
@@ -51,6 +52,7 @@ private   ControllerConexao controllerConexao;
                 formWindowOpened(evt);
             }
         });
+
         setTitle("Farmacia");
 
         javax.swing.GroupLayout desktopLayout = new javax.swing.GroupLayout(desktop);
@@ -89,6 +91,14 @@ private   ControllerConexao controllerConexao;
             }
         });
         jMenu1.add(jMenuFabricante);
+
+        jMenuItem1.setText("Receita Medica");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
 
         jMenuBar1.add(jMenu1);
 
@@ -191,6 +201,14 @@ private   ControllerConexao controllerConexao;
        consPerf.setVisible(true);
     }//GEN-LAST:event_menuPerfumariaActionPerformed
 
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        JanelaCadastroReceita janelaCadastroReceita = new JanelaCadastroReceita();
+        desktop.add(janelaCadastroReceita);
+        janelaCadastroReceita.setVisible(true);
+        
+// TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
     private void jMenuPerfumariaActionPerformed(java.awt.event.ActionEvent evt) {                                                
         JanelaPerfumaria perf = new JanelaPerfumaria();
         desktop.add(perf);
@@ -199,7 +217,7 @@ private   ControllerConexao controllerConexao;
        conectarBanco();
     }
     private void conectarBanco(){
-        controllerConexao.abrirConexao("root","");
+        controllerConexao.abrirConexao("root","jvictor01");
         String mensagem = controllerConexao.getMensagem();
         JOptionPane.showMessageDialog(this, mensagem);
     }
@@ -246,6 +264,7 @@ private   ControllerConexao controllerConexao;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenu jMenuConsultar;
     private javax.swing.JMenuItem jMenuFabricante;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuMedicamento;
     private javax.swing.JMenuItem jMenuPerfumaria;
     private javax.swing.JMenuItem jMenuVenda;

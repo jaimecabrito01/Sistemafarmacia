@@ -1,15 +1,11 @@
 package model;
 
+import java.util.Date;
+
 public class ReceitaMedica {
-    private int crm, numero;
-    private String data;
-
-    public ReceitaMedica(int crm, int numero, String data) {
-        this.crm = crm;
-        this.numero = numero;
-        this.data = data;
-    }
-
+    private int crm;
+    private  int numero;
+    private Date data;
 
     public int getCrm() {
         return crm;
@@ -27,11 +23,19 @@ public class ReceitaMedica {
         this.numero = numero;
     }
 
-    public String getData() {
+    public Date getData() {
         return data;
     }
 
-    public void setData(String data) {
+    public void setData(Date data) {
         this.data = data;
     }
+
+    public ReceitaMedica(int numero,int crm, Date data) {
+        this.crm = crm;
+        this.numero = numero;
+        this.data = data;
+    }
+
+
 }
