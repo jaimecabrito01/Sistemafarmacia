@@ -8,6 +8,7 @@ import controllers.ControllerProduto;
 import model.MedicamentoList;
 import model.PerfumeList;
 
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.util.ArrayList;
 
@@ -197,12 +198,20 @@ private ControllerProduto controllerProduto;
 
     private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
     String fab1 = txtFab.getText().trim();
+        String tipo1="";
     String nome1 = txtNome.getText().trim();
-    String tipo1 = cmbTipo.getSelectedItem().toString();
+        String numero1 = txtNumProd.getText().trim();
+    if(cmbTipo.getSelectedItem() == null){
+        tipo1 = "";
+    }else{
+        tipo1 = cmbTipo.getSelectedItem().toString();
+    }
+    ArrayList<PerfumeList>  perfumeLists =controllerProduto.consultarPerfume(fab1,nome1,numero1,tipo1);
 
-    String numero1 = txtNumProd.getText().trim();
 
-   ArrayList<PerfumeList>  perfumeLists =controllerProduto.consultarPerfume(fab1,nome1,numero1,tipo1);
+
+
+
         DefaultTableModel modeloTabela =
                 (DefaultTableModel) tblPerfumaria.getModel();
         int quant= tblPerfumaria.getRowCount();

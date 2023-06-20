@@ -27,6 +27,7 @@ private String mensagem;
         mensagem = fabricanteService.getMensagem();
         return  false;
     }
+    // Listar fabricantes
     public ArrayList<Fabricante> consultarFabricante(){
 
         ArrayList<Fabricante> fabricantes = fabricanteService.consultar();
@@ -35,6 +36,7 @@ private String mensagem;
         return fabricantes;
 
     }
+    //Lista
     public  ArrayList<Fabricante> consultarFabricantes(String cnpj,String nome){
         ArrayList<Fabricante>  fabricantes = fabricanteService.consultarFabricantes(cnpj,nome);
         mensagem = fabricanteService.getMensagem();
